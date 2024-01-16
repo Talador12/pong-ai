@@ -57,5 +57,4 @@ dependencies:
   - zstd=1.4.5=h1f3a1b7_1
   - pip:
     - opencv-python==4.3.0.36
-prefix: C:\Users\Robin\anaconda3\envs\pong-ai
-
+prefix: /home/talador12/anaconda3

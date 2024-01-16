@@ -1,7 +1,7 @@
 import time
 import cv2
-from utils.screengrab import screen_record
-from utils.directkeys import PressKey, ReleaseKey
+from utils.linux.screengrab_linux import screen_record
+from utils.linux.directkeys_linux import PressKey, ReleaseKey
 import argparse
 import numpy as np
 import os

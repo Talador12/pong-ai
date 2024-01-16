@@ -73,7 +73,7 @@ def get_play_area(img):
 
 
 pong_pos_list = [(500, 300)]
-img = cv2.imread(r'images\test_img.png')
+img = cv2.imread(r'images\test_idle.png')
 processed_img = process_img(img)
 pong_pos = get_pong(processed_img)
 pong_pos_list.append(pong_pos)
