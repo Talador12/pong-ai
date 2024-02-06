@@ -1,3 +1,4 @@
+# deprecated this conda for pip requirements.txt instead, but keeping this to compare with the upstream fork
 name: pong-ai
 channels:
   - anaconda

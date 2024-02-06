@@ -2,15 +2,16 @@
 
 forked from robintwhite/pong-ai
 
-For this fork, rebuilt it to work with vertical pong paddles
+For this fork:
+
+- rebuilt it to work with vertical pong paddles
+- `pip` instead of `conda`
 
 
 Original README.md below:
 
 # pong-ai
  Computer plays pong!
-
-NOTE: Updated to use `pip` instead of `conda`
 
  Screen cap using python-mss, image processing and math to play pong. <br>
  
