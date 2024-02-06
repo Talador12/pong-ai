@@ -318,8 +318,8 @@ if __name__ == "__main__":
     else:
         print("Left/Right mode activated")
         # Keyboard scan codes
-        up = 0x48  # up
-        down = 0x50  # down
+        up = 0x25  # up
+        down = 0x32  # down
     # old keys
     # up = 0x25  # K
     # down = 0x32  # M
