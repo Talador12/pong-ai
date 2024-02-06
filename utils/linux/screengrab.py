@@ -14,8 +14,7 @@ def screen_record(
     sct = mss()
     monitor = sct.monitors[game_monitor]
     monitor["mon"] = game_monitor
-    print(monitor)
-    #raise SystemExit
+
     if left_right_mode:
         # Left/Right Mode
         return np.asarray(sct.grab(monitor))

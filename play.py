@@ -1,14 +1,20 @@
 import time
 import cv2
-
-# try:
-from utils.linux import directkeys, screengrab
-
-# except ImportError or AttributeError:
-#    from utils.windows import directkeys, screengrab
+import os
 import argparse
 import numpy as np
-import os
+
+# chose an implementation, depending on os
+if os.name == 'nt':  # sys.platform == 'win32':
+    from utils.windows import directkeys, screengrab
+    print("> Running on Windows")
+elif os.name == 'posix':
+    from utils.linux import directkeys, screengrab
+    print("> Running on Linux")
+else:
+    raise ImportError(f"Sorry: no implementation for your platform ('{os.name}') available")
+
+
 
 """
 With support from:
@@ -342,10 +348,6 @@ if __name__ == "__main__":
             screen = screengrab.screen_record(
                 left_right_mode=rotated, game_monitor=monitor, pos_set=pos
             )
-
-            # Top/Bottom mode only
-            img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
-
             processed_img = process_img(screen, factor)
             pong_pos = get_pong(processed_img, factor)
             comp_paddle, play_paddle = get_paddles(processed_img, factor)
