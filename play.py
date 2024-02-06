@@ -349,7 +349,6 @@ if __name__ == "__main__":
                 left_right_mode=rotated, game_monitor=monitor, pos_set=pos
             )
             processed_img = process_img(screen, factor)
-
             pong_pos = get_pong(processed_img, factor)
             comp_paddle, play_paddle = get_paddles(processed_img, factor)
             play_box = get_play_area(screen)  # x, y, w, h
