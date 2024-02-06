@@ -17,7 +17,7 @@ def screen_record(
 
     if left_right_mode:
         # Left/Right Mode
-        return np.rot90(np.asarray(sct.grab(monitor)),4)
+        return np.asarray(sct.grab(pos_set))
     # Top/Bottom Mode
     return np.rot90(np.asarray(sct.grab(monitor)))
 
