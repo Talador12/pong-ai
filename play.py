@@ -1,9 +1,11 @@
 import time
 import cv2
-try:
-    from utils.linux import directkeys, screengrab
-except ImportError or AttributeError:
-    from utils.windows import directkeys, screengrab
+
+# try:
+from utils.linux import directkeys, screengrab
+
+# except ImportError or AttributeError:
+#    from utils.windows import directkeys, screengrab
 import argparse
 import numpy as np
 import os
@@ -267,6 +269,20 @@ if __name__ == "__main__":
         default=3,
         help="ai option: 1 simple, 2 direction, 3 rebound",
     )
+    ap.add_argument(
+        "-r",
+        "--rotate",
+        type=int,
+        default=0,
+        help="For top/down mode. Player from left to bottom, computer from right to top",
+    )
+    ap.add_argument(
+        "-m",
+        "--monitor",
+        type=int,
+        default=1,
+        help="Moniter number that Pong is running on",
+    )
     args = vars(ap.parse_args())
 
     save_frames = args["save_frames"]
@@ -287,9 +303,24 @@ if __name__ == "__main__":
         "width": args["width"],
         "height": args["height"],
     }
-    # Keyboard scan codes
-    up = 0x25  # K
-    down = 0x32  # M
+
+    rotated = args["rotate"]
+    if rotated:
+        print("Top/Down mode activated")
+        # Keyboard scan codes
+        up = 0x4B  # left
+        down = 0x4D  # right
+    else:
+        print("Left/Right mode activated")
+        # Keyboard scan codes
+        up = 0x48  # up
+        down = 0x50  # down
+    # old keys
+    # up = 0x25  # K
+    # down = 0x32  # M
+
+    monitor = args["monitor"]
+
     start_time = time.time()
     factor = 0.5  # downscaling factor when processing
     fwd = 50
@@ -309,7 +340,13 @@ if __name__ == "__main__":
     try:
         while True:
             frame += 1
-            screen = screengrab.screen_record(pos)
+            screen = screengrab.screen_record(
+                left_right_mode=rotated, game_monitor=monitor, pos_set=pos
+            )
+
+            # Top/Bottom mode only
+            img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
             processed_img = process_img(screen, factor)
             pong_pos = get_pong(processed_img, factor)
             comp_paddle, play_paddle = get_paddles(processed_img, factor)

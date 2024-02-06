@@ -84,7 +84,7 @@ def get_paddles(img, factor=0.5):
     play_conn = cv2.connectedComponentsWithStats(player_mask, connectivity, cv2.CV_16U)
     print(play_conn)
     play_cent = play_conn[3][1:, :][
-        play_conn[2][1:, -1] == play_conn[2][1:, -1].max()#[2][1:, -1].max()
+        play_conn[2][1:, -1] == play_conn[2][1:, -1].max()
     ] * (1 / factor)
     if play_cent.size > 0:
         play_cent = tuple(map(int, play_cent.tolist()[0]))
@@ -108,7 +108,6 @@ def get_play_area(img):
     return x, y, w, h
 
 
-
 # Top/Bottom mode only
 img = cv2.imread("images/test_idle.png")
 img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
@@ -118,7 +117,7 @@ img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
 
 # Center of the image starting position
 h, w, c = img.shape
-pong_pos_list = [round(h / 2), round( w/2)]
+pong_pos_list = [round(h / 2), round(w / 2)]
 
 processed_img = process_img(img)
 pong_pos = get_pong(processed_img)

@@ -1,10 +1,12 @@
 import wx
+
 # https://stackoverflow.com/questions/57342753/how-to-select-a-rectangle-of-the-screen-to-capture-by-dragging-mouse-on-transpar
 
 global selectionOffset, selectionSize
 
 selectionOffset = ""
 selectionSize = ""
+
 
 class SelectableFrame(wx.Frame):
 
@@ -15,8 +17,8 @@ class SelectableFrame(wx.Frame):
         wx.Frame.__init__(self, parent, id, title, size=wx.DisplaySize())
         self.menubar = wx.MenuBar(wx.MB_DOCKABLE)
         self.filem = wx.Menu()
-        self.filem.Append(wx.ID_EXIT, '&Transparency')
-        self.menubar.Append(self.filem, '&File')
+        self.filem.Append(wx.ID_EXIT, "&Transparency")
+        self.menubar.Append(self.filem, "&File")
         self.SetMenuBar(self.menubar)
         self.Bind(wx.EVT_MOTION, self.OnMouseMove)
         self.Bind(wx.EVT_LEFT_DOWN, self.OnMouseDown)
@@ -51,15 +53,21 @@ class SelectableFrame(wx.Frame):
 
     def OnPaint(self, event):
         global selectionOffset, selectionSize
-        if self.c1 is None or self.c2 is None: return
+        if self.c1 is None or self.c2 is None:
+            return
 
         dc = wx.PaintDC(self)
-        dc.SetPen(wx.Pen('red', 1))
+        dc.SetPen(wx.Pen("red", 1))
         dc.SetBrush(wx.Brush(wx.Colour(0, 0, 0), wx.TRANSPARENT))
 
-        dc.DrawRectangle(self.c1.x, self.c1.y, self.c2.x - self.c1.x, self.c2.y - self.c1.y)
+        dc.DrawRectangle(
+            self.c1.x, self.c1.y, self.c2.x - self.c1.x, self.c2.y - self.c1.y
+        )
         selectionOffset = str(self.c1.x) + "x" + str(self.c1.y)
-        selectionSize = str(abs(self.c2.x - self.c1.x)) + "x" + str(abs(self.c2.y - self.c1.y))
+        selectionSize = (
+            str(abs(self.c2.x - self.c1.x)) + "x" + str(abs(self.c2.y - self.c1.y))
+        )
+
     def PrintPosition(self, pos):
         return str(pos.x) + "x" + str(pos.y)
 
@@ -74,5 +82,5 @@ class MyApp(wx.App):
 
 app = MyApp(redirect=False)
 app.MainLoop()
-print('Display size: {}'.format(wx.DisplaySize()))
+print("Display size: {}".format(wx.DisplaySize()))
 print("offset: " + selectionOffset + ". Screen selection size: " + selectionSize)
