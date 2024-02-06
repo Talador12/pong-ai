@@ -108,8 +108,6 @@ def get_play_area(img):
     return x, y, w, h
 
 
-pong_pos_list = [(500, 300)]
-
 
 # Top/Bottom mode only
 img = cv2.imread("images/test_idle.png")
@@ -117,6 +115,10 @@ img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
 
 # Left/Right mode only
 # img = cv2.imread("images/test_img.png")
+
+# Center of the image starting position
+h, w, c = img.shape
+pong_pos_list = [round(h / 2), round( w/2)]
 
 processed_img = process_img(img)
 pong_pos = get_pong(processed_img)
