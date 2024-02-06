@@ -234,7 +234,6 @@ def get_play_area(img, bkgrnd=10):
 
 
 if __name__ == "__main__":
-
     ap = argparse.ArgumentParser()
     ap.add_argument(
         "-t", "--top", type=int, default=120, help="top offset for capture position"
