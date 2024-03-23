@@ -9,11 +9,15 @@ import numpy as np
 def screen_record(
     left_right_mode=True,
     game_monitor=1,
-    pos_set={"top": 100, "left": 1025, "width": 800, "height": 640},
+    pos_set={"top": 0, "left": 0, "width": 800, "height": 600},
 ):
     sct = mss()
     monitor = sct.monitors[game_monitor]
     monitor["mon"] = game_monitor
+
+    # Infer the pos_set from the monitor size, use the whole monitor as the image
+    pos_set = monitor
+    
 
     if left_right_mode:
         # Left/Right Mode

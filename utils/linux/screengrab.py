@@ -15,6 +15,9 @@ def screen_record(
     monitor = sct.monitors[game_monitor]
     monitor["mon"] = game_monitor
 
+    # Infer the pos_set from the monitor size, use the whole monitor as the image
+    pos_set = monitor
+
     if left_right_mode:
         # Left/Right Mode
         return np.asarray(sct.grab(pos_set))

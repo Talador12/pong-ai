@@ -38,6 +38,12 @@ Move player paddle to predicted ball position
 by direction vector + reflection*
 """
 
+def code_break(img):
+    cv2.imshow("image", img)
+    cv2.waitKey(0) 
+    cv2.destroyAllWindows() 
+    raise SystemExit("Code breakpoint")
+
 
 def process_img(img, threshold=127, factor=0.5):
     gray = cv2.resize(
@@ -279,7 +285,7 @@ if __name__ == "__main__":
         "--rotate",
         type=int,
         default=0,
-        help="For top/down mode. Player from left to bottom, computer from right to top",
+        help="0 for left/right bars. 1 for top/down mode. Player from left to bottom, computer from right to top",
     )
     ap.add_argument(
         "-m",
@@ -311,12 +317,12 @@ if __name__ == "__main__":
 
     rotated = args["rotate"]
     if rotated:
-        print("Top/Down mode activated")
+        print("> Top/Down mode activated")
         # Keyboard scan codes
         up = 0x4B  # left
         down = 0x4D  # right
     else:
-        print("Left/Right mode activated")
+        print("> Left/Right mode activated")
         # Keyboard scan codes
         up = 0x25  # up
         down = 0x32  # down
@@ -325,6 +331,7 @@ if __name__ == "__main__":
     # down = 0x32  # M
 
     monitor = args["monitor"]
+    print(f"> Targeting monitor: {monitor}")
 
     start_time = time.time()
     factor = 0.5  # downscaling factor when processing
@@ -351,6 +358,7 @@ if __name__ == "__main__":
             processed_img = process_img(screen, factor)
             pong_pos = get_pong(processed_img, factor)
             comp_paddle, play_paddle = get_paddles(processed_img, factor)
+            code_break(screen)
             play_box = get_play_area(screen)  # x, y, w, h
 
             if len(comp_paddle) > 0 and len(play_paddle) > 0 and len(play_box):
