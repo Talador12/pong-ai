@@ -358,7 +358,6 @@ if __name__ == "__main__":
             processed_img = process_img(screen, factor)
             pong_pos = get_pong(processed_img, factor)
             comp_paddle, play_paddle = get_paddles(processed_img, factor)
-            code_break(screen)
             play_box = get_play_area(screen)  # x, y, w, h
 
             if len(comp_paddle) > 0 and len(play_paddle) > 0 and len(play_box):

@@ -2,6 +2,7 @@ import time
 import cv2
 from mss.windows import MSS as mss
 import numpy as np
+import math
 
 # TESTED PIL at ~15 fps
 
@@ -17,6 +18,12 @@ def screen_record(
 
     # Infer the pos_set from the monitor size, use the whole monitor as the image
     pos_set = monitor
+
+    # Idleon specific image sizing, based on monitor size
+    pos_set["top"] = math.floor(pos_set["top"] + pos_set["height"] * 0.085)
+    pos_set["left"] = math.floor(pos_set["left"] + pos_set["width"] * 0.06)
+    pos_set["width"] = math.floor(pos_set["width"] * 0.685)
+    pos_set["height"] = math.floor(pos_set["height"] * 0.71)
     
 
     if left_right_mode:
