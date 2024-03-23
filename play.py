@@ -5,15 +5,18 @@ import argparse
 import numpy as np
 
 # chose an implementation, depending on os
-if os.name == 'nt':  # sys.platform == 'win32':
+if os.name == "nt":  # sys.platform == 'win32':
     from utils.windows import directkeys, screengrab
+
     print("> Running on Windows")
-elif os.name == 'posix':
+elif os.name == "posix":
     from utils.linux import directkeys, screengrab
+
     print("> Running on Linux")
 else:
-    raise ImportError(f"Sorry: no implementation for your platform ('{os.name}') available")
-
+    raise ImportError(
+        f"Sorry: no implementation for your platform ('{os.name}') available"
+    )
 
 
 """
@@ -38,10 +41,11 @@ Move player paddle to predicted ball position
 by direction vector + reflection*
 """
 
+
 def code_break(img):
     cv2.imshow("image", img)
-    cv2.waitKey(0) 
-    cv2.destroyAllWindows() 
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     raise SystemExit("Code breakpoint")
 
 
@@ -248,18 +252,6 @@ def get_play_area(img, bkgrnd=10):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument(
-        "-t", "--top", type=int, default=120, help="top offset for capture position"
-    )
-    ap.add_argument(
-        "-l", "--left", type=int, default=1081, help="left offset for capture position"
-    )
-    ap.add_argument(
-        "-wx", "--width", type=int, default=700, help="width for capture position"
-    )
-    ap.add_argument(
-        "-hx", "--height", type=int, default=500, help="height for capture position"
-    )
-    ap.add_argument(
         "-s",
         "--save-frames",
         required=False,
@@ -307,14 +299,6 @@ if __name__ == "__main__":
     image_prefix = "pong_ai_"
     ai = args["ai"]  # 1 for simple follow, 2 for added direction, 3 for rebound
 
-    # Screen capture position
-    pos = {
-        "top": args["top"],
-        "left": args["left"],
-        "width": args["width"],
-        "height": args["height"],
-    }
-
     rotated = args["rotate"]
     if rotated:
         print("> Top/Down mode activated")
@@ -333,10 +317,16 @@ if __name__ == "__main__":
     monitor = args["monitor"]
     print(f"> Targeting monitor: {monitor}")
 
+    # Screen capture position
+    screen, pos = screengrab.screen_record(
+        left_right_mode=rotated, game_monitor=monitor
+    )
+
     start_time = time.time()
     factor = 0.5  # downscaling factor when processing
     fwd = 50
 
+    # Countdown to start
     for i in list(range(3))[::-1]:
         print(i + 1)
         time.sleep(1)
@@ -347,13 +337,13 @@ if __name__ == "__main__":
     fps = 0
     pong_pos_list = []
     future_pos = []
-    boundaries = [0, pos["width"], 0, pos["height"]]  # l, r, t , b
+    boundaries = [pos["left"], pos["width"], pos["top"], pos["height"]]  # l, r, t , b
 
     try:
         while True:
             frame += 1
-            screen = screengrab.screen_record(
-                left_right_mode=rotated, game_monitor=monitor, pos_set=pos
+            screen, pos = screengrab.screen_record(
+                left_right_mode=rotated, game_monitor=monitor
             )
             processed_img = process_img(screen, factor)
             pong_pos = get_pong(processed_img, factor)

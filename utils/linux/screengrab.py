@@ -2,6 +2,7 @@ import time
 import cv2
 from mss.linux import MSS as mss
 import numpy as np
+import math
 
 # TESTED PIL at ~15 fps
 
@@ -9,7 +10,6 @@ import numpy as np
 def screen_record(
     left_right_mode=True,
     game_monitor=1,
-    pos_set={"top": 100, "left": 1025, "width": 800, "height": 640},
 ):
     sct = mss()
     monitor = sct.monitors[game_monitor]
@@ -18,11 +18,17 @@ def screen_record(
     # Infer the pos_set from the monitor size, use the whole monitor as the image
     pos_set = monitor
 
+    # Idleon specific image sizing, based on monitor size
+    pos_set["top"] = math.floor(pos_set["top"] + pos_set["height"] * 0.085)
+    pos_set["left"] = math.floor(pos_set["left"] + pos_set["width"] * 0.06)
+    pos_set["width"] = math.floor(pos_set["width"] * 0.685)
+    pos_set["height"] = math.floor(pos_set["height"] * 0.71)
+
     if left_right_mode:
         # Left/Right Mode
-        return np.asarray(sct.grab(pos_set))
+        return np.asarray(sct.grab(pos_set)), pos_set
     # Top/Bottom Mode
-    return np.rot90(np.asarray(sct.grab(monitor)))
+    return np.rot90(np.asarray(sct.grab(pos_set))), pos_set
 
 
 if __name__ == "__main__":
