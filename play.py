@@ -277,7 +277,7 @@ if __name__ == "__main__":
         "--rotate",
         type=int,
         default=0,
-        help="0 for left/right bars. 1 for top/down mode. Player from left to bottom, computer from right to top",
+        help="0 for left/right play. 1 to rotate to top/down play. Player from left to bottom, computer from right to top",
     )
     ap.add_argument(
         "-m",
@@ -318,9 +318,7 @@ if __name__ == "__main__":
     print(f"> Targeting monitor: {monitor}")
 
     # Screen capture position
-    screen, pos = screengrab.screen_record(
-        left_right_mode=rotated, game_monitor=monitor
-    )
+    screen, pos = screengrab.screen_record(game_monitor=monitor)
 
     start_time = time.time()
     factor = 0.5  # downscaling factor when processing
@@ -342,10 +340,16 @@ if __name__ == "__main__":
     try:
         while True:
             frame += 1
-            screen, pos = screengrab.screen_record(
-                left_right_mode=rotated, game_monitor=monitor
-            )
+            screen, pos = screengrab.screen_record(game_monitor=monitor)
             processed_img = process_img(screen, factor)
+
+            # if rotated:
+            #     print('top/down')
+            # else:
+            #     print('left/right')
+            # code_break(screen)
+            #TODO: This is where I need to start using the rotated variable to flip where it thinks the paddles are
+
             pong_pos = get_pong(processed_img, factor)
             comp_paddle, play_paddle = get_paddles(processed_img, factor)
             play_box = get_play_area(screen)  # x, y, w, h

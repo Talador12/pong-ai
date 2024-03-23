@@ -7,10 +7,7 @@ import math
 # TESTED PIL at ~15 fps
 
 
-def screen_record(
-    left_right_mode=True,
-    game_monitor=1,
-):
+def screen_record(game_monitor=1):
     sct = mss()
     monitor = sct.monitors[game_monitor]
     monitor["mon"] = game_monitor
@@ -24,11 +21,7 @@ def screen_record(
     pos_set["width"] = math.floor(pos_set["width"] * 0.685)
     pos_set["height"] = math.floor(pos_set["height"] * 0.71)
 
-    if left_right_mode:
-        # Left/Right Mode
-        return np.asarray(sct.grab(pos_set)), pos_set
-    # Top/Bottom Mode
-    return np.rot90(np.asarray(sct.grab(pos_set))), pos_set
+    return np.asarray(sct.grab(pos_set)), pos_set
 
 
 if __name__ == "__main__":
